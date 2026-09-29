@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#51386a">
+  <title>Modo docente · Conocimiento del medio</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #292431;
+      background: #f7f3fb;
+      font-synthesis: none;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 8% 6%, #e9dcff 0, transparent 24rem),
+        linear-gradient(180deg, #fbf9ff, #f5f1f9);
+    }
+
+    .contenedor { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
+
+    header { position: relative; padding: 40px 0 26px; }
+
+    .logo-github {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid #d7c8e7;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 1.4rem;
+      text-decoration: none;
+      box-shadow: 0 8px 24px #39264e12;
+      transition: transform .14s ease, background .14s ease;
+    }
+
+    .logo-github:hover { transform: translateY(-2px); background: #f1eafa; }
+    .logo-github:focus-visible { outline: 3px solid #aa8ac8; outline-offset: 2px; }
+    .logo-elegir { right: 116px; }
+    .logo-issue { right: 58px; }
+
+    .etiqueta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid #d7c8e7;
+      border-radius: 999px;
+      background: #fff;
+      color: #604777;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 { margin: 16px 0 8px; color: #39264e; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; }
+    header p { max-width: 680px; margin: 0; color: #625b6c; font-size: 1.08rem; line-height: 1.6; }
+
+    .rayos-x {
+      display: grid;
+      grid-template-columns: minmax(0, 260px) 1fr;
+      gap: 24px;
+      align-items: center;
+      margin: 4px 0 28px;
+      padding: 20px;
+      border: 1px solid #e2d9eb;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 8px 24px #39264e12;
+    }
+
+    .rayos-x-imagen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 50% 20%, #0f2a4a, #071324 70%);
+    }
+
+    .rayos-x-imagen svg { width: 100%; max-width: 220px; height: auto; }
+
+    .organo {
+      cursor: pointer;
+      fill: #7fd8ff;
+      fill-opacity: .55;
+      stroke: #bdeeff;
+      stroke-width: 1.5;
+      transition: fill-opacity .15s ease, stroke-width .15s ease;
+    }
+
+    .organo:hover { fill-opacity: .8; }
+    .organo.activo { fill: #fff59e; fill-opacity: .9; stroke: #fff2b8; stroke-width: 2.5; }
+    .esqueleto { fill: none; stroke: #5fa8d3; stroke-width: 1; stroke-opacity: .55; }
+
+    .rayos-x-texto h2 { margin: 0 0 8px; color: #39264e; font-size: 1.2rem; }
+    #organo-nombre { margin: 0 0 6px; color: #46315c; font-weight: 800; font-size: 1.15rem; }
+    #organo-funcion { margin: 0; color: #625b6c; line-height: 1.5; min-height: 3.2em; }
+    .rayos-x-pista { margin: 10px 0 0; color: #8a8195; font-size: .85rem; }
+
+    .controles {
+      position: sticky;
+      z-index: 2;
+      top: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      gap: 12px;
+      margin: 4px 0 24px;
+      padding: 14px;
+      border: 1px solid #e2d9eb;
+      border-radius: 18px;
+      background: #fffffff2;
+      box-shadow: 0 8px 24px #39264e12;
+      backdrop-filter: blur(10px);
+    }
+
+    .selector { display: grid; gap: 5px; min-width: 190px; }
+    label { color: #51495d; font-size: .9rem; font-weight: 750; }
+
+    select, button, input { font: inherit; }
+
+    select {
+      min-height: 44px;
+      padding: 9px 38px 9px 12px;
+      border: 1px solid #cfc4da;
+      border-radius: 11px;
+      background: white;
+      color: #302a38;
+    }
+
+    button {
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 11px;
+      background: #604777;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .14s ease, background .14s ease;
+    }
+
+    button:hover { transform: translateY(-1px); background: #4c3562; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #aa8ac8; outline-offset: 2px; }
+
+    .resumen {
+      margin-left: auto;
+      align-self: center;
+      color: #625b6c;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .continuar { background: #23745a; }
+    .continuar:hover { background: #195b45; }
+    .aviso-guardado { width: 100%; margin: 0; color: #5b6970; font-size: .84rem; font-weight: 650; }
+
+    #ejercicios { display: grid; gap: 20px; padding-bottom: 48px; }
+
+    .grupo {
+      overflow: hidden;
+      border: 1px solid #e5ddec;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 8px 24px #39264e0b;
+    }
+
+    .grupo h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      padding: 17px 20px;
+      background: #f1eafa;
+      color: #46315c;
+      font-size: 1.25rem;
+    }
+
+    .grupo h2 span { font-size: 1.35rem; }
+    .contador-grupo { margin-left: auto; color: #7a6f8a; font-size: .82rem; font-weight: 700; text-transform: none; letter-spacing: normal; }
+    .grupo ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 26px; margin: 0; padding: 8px 24px 18px 52px; }
+    .grupo li { display: flex; min-width: 0; align-items: center; gap: 8px; padding: 12px 4px; border-bottom: 1px dashed #ece7f1; font-size: 1.05rem; }
+    .enunciado { flex: 1; min-width: 0; }
+
+    .respuesta {
+      width: 160px;
+      min-height: 40px;
+      padding: 6px 8px;
+      border: 2px solid #d7cfdf;
+      border-radius: 9px;
+      background: #fff;
+      color: #292431;
+      font: inherit;
+      text-align: center;
+    }
+
+    .respuesta:focus { border-color: #80619c; outline: 3px solid #aa8ac833; }
+    .resultado { min-width: 1.2em; font-size: 1.35rem; font-weight: 900; line-height: 1; }
+    .resultado.correcta { color: #168348; }
+    .resultado.incorrecta { color: #c92b3d; }
+
+    .solucion {
+      display: inline-block;
+      margin-left: 8px;
+      color: #21734a;
+      font-weight: 850;
+    }
+
+    .solucion[hidden] { display: none; }
+
+    dialog {
+      width: min(420px, calc(100% - 28px));
+      padding: 0;
+      border: 1px solid #ddd2e8;
+      border-radius: 20px;
+      box-shadow: 0 24px 80px #20172b55;
+    }
+
+    dialog::backdrop { background: #25183188; backdrop-filter: blur(3px); }
+    .dialogo-cuerpo { padding: 24px; }
+    .dialogo-cuerpo h2 { margin: 0 0 7px; color: #39264e; }
+    .dialogo-cuerpo p { margin: 0 0 18px; color: #625b6c; line-height: 1.5; }
+    .dialogo-cuerpo form { display: grid; gap: 12px; }
+    .dialogo-cuerpo input { min-height: 45px; padding: 10px 12px; border: 1px solid #cfc4da; border-radius: 10px; }
+    .acciones-dialogo { display: flex; justify-content: end; gap: 8px; }
+    .secundario { background: #eee8f4; color: #40334e; }
+    .secundario:hover { background: #e2d8ec; }
+    #error-clave { min-height: 1.4em; margin: 0; color: #a32939; font-weight: 700; }
+
+    .enlace-pista {
+      justify-self: start;
+      min-height: auto;
+      padding: 2px 0;
+      border: 0;
+      background: none;
+      color: #604777;
+      font-size: .85rem;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .enlace-pista:hover { color: #4c3562; }
+    .pista-clave { margin: -6px 0 0; color: #51495d; font-size: .85rem; line-height: 1.4; }
+    .pista-clave[hidden] { display: none; }
+
+    footer { padding: 0 0 28px; color: #756d7e; font-size: .88rem; text-align: center; }
+
+    @media (max-width: 700px) {
+      .rayos-x { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .controles { position: static; align-items: stretch; }
+      .selector { flex: 1 1 100%; }
+      .resumen { flex: 1 1 100%; margin: 0; }
+      .grupo ol { grid-template-columns: 1fr; }
+      header { padding-top: 28px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .contenedor { width: 100%; }
+      header { padding: 0 0 14px; }
+      .controles, dialog, footer, .logo-github, .logo-elegir, .logo-issue, .rayos-x { display: none !important; }
+      .grupo { break-inside: avoid; box-shadow: none; }
+      .grupo ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .solucion[hidden] { display: none !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="contenedor">
+    <a href="https://marconevi-lab.github.io/Educacion-de-matematicas/inicio.html" class="logo-github logo-elegir" title="Elegir otra asignatura o curso" aria-label="Elegir otra asignatura o curso">➕</a>
+    <a href="https://github.com/marconevi-lab/Educacion-de-conocimiento-del-medio" target="_blank" rel="noopener" class="logo-github" title="Ver el repositorio en GitHub" aria-label="Ver el repositorio en GitHub">📐</a>
+    <a href="https://github.com/marconevi-lab/Educacion-de-conocimiento-del-medio/issues/new" target="_blank" rel="noopener" class="logo-github logo-issue" title="Reportar un problema" aria-label="Reportar un problema">🐛</a>
+    <span class="etiqueta">🧑‍🏫 Modo docente · 4.º de Primaria</span>
+    <h1>Reto de conocimiento del medio</h1>
+    <p>50 preguntas sobre el cuerpo humano: aparato digestivo, respiratorio, circulatorio, locomotor y los sentidos. Elige un nivel y ponte a pensar; las soluciones están reservadas para el profesorado.</p>
+  </header>
+
+  <main class="contenedor">
+    <section class="rayos-x" aria-label="Ilustración de rayos X del cuerpo humano">
+      <div class="rayos-x-imagen">
+        <svg viewBox="0 0 220 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de rayos X del cuerpo humano con órganos interactivos">
+          <ellipse class="esqueleto" cx="110" cy="45" rx="34" ry="40"></ellipse>
+          <path class="esqueleto" d="M110 85 L110 120"></path>
+          <path class="esqueleto" d="M70 130 Q110 110 150 130 L150 260 Q110 280 70 260 Z"></path>
+          <path class="esqueleto" d="M78 140 Q110 128 142 140"></path>
+          <path class="esqueleto" d="M78 160 Q110 148 142 160"></path>
+          <path class="esqueleto" d="M78 180 Q110 168 142 180"></path>
+          <path class="esqueleto" d="M78 200 Q110 188 142 200"></path>
+          <path class="esqueleto" d="M78 220 Q110 208 142 220"></path>
+          <path class="esqueleto" d="M110 130 L110 300"></path>
+          <path class="esqueleto" d="M70 145 L40 210 M150 145 L180 210 M40 210 L55 260 M180 210 L165 260"></path>
+          <path class="esqueleto" d="M85 300 L70 400 M135 300 L150 400"></path>
+
+          <g class="organo" tabindex="0" role="button" data-organo="cerebro" data-funcion="Controla el cuerpo y procesa la información de los sentidos." aria-label="Cerebro">
+            <ellipse cx="110" cy="42" rx="26" ry="28"></ellipse>
+          </g>
+
+          <g class="organo" tabindex="0" role="button" data-organo="pulmón izquierdo" data-funcion="Intercambia oxígeno y dióxido de carbono con la sangre." aria-label="Pulmón izquierdo">
+            <path d="M92 145 Q68 160 70 210 Q72 235 95 230 Q100 190 92 145 Z"></path>
+          </g>
+          <g class="organo" tabindex="0" role="button" data-organo="pulmón derecho" data-funcion="Intercambia oxígeno y dióxido de carbono con la sangre." aria-label="Pulmón derecho">
+            <path d="M128 145 Q152 160 150 210 Q148 235 125 230 Q120 190 128 145 Z"></path>
+          </g>
+
+          <g class="organo" tabindex="0" role="button" data-organo="corazón" data-funcion="Bombea la sangre por todo el cuerpo." aria-label="Corazón">
+            <path d="M110 165 C100 150 78 158 80 178 C82 198 110 216 110 216 C110 216 138 198 140 178 C142 158 120 150 110 165 Z"></path>
+          </g>
+
+          <g class="organo" tabindex="0" role="button" data-organo="estómago" data-funcion="Digiere los alimentos con jugos gástricos." aria-label="Estómago">
+            <path d="M78 235 Q75 260 95 268 Q110 270 108 250 Q100 238 78 235 Z"></path>
+          </g>
+
+          <g class="organo" tabindex="0" role="button" data-organo="hígado" data-funcion="Produce la bilis y limpia la sangre." aria-label="Hígado">
+            <path d="M115 240 Q150 235 152 258 Q150 272 120 268 Q112 255 115 240 Z"></path>
+          </g>
+
+          <g class="organo" tabindex="0" role="button" data-organo="intestinos" data-funcion="Absorben los nutrientes y el agua de los alimentos." aria-label="Intestinos">
+            <path d="M78 275 Q110 265 142 275 Q150 295 130 300 Q110 290 90 300 Q70 295 78 275 Z"></path>
+          </g>
+
+          <g class="organo" tabindex="0" role="button" data-organo="riñón izquierdo" data-funcion="Filtra la sangre y produce la orina." aria-label="Riñón izquierdo">
+            <ellipse cx="85" cy="250" rx="8" ry="14"></ellipse>
+          </g>
+          <g class="organo" tabindex="0" role="button" data-organo="riñón derecho" data-funcion="Filtra la sangre y produce la orina." aria-label="Riñón derecho">
+            <ellipse cx="135" cy="250" rx="8" ry="14"></ellipse>
+          </g>
+        </svg>
+      </div>
+      <div class="rayos-x-texto">
+        <h2>🩻 Rayos X del cuerpo humano</h2>
+        <p id="organo-nombre">Toca un órgano</p>
+        <p id="organo-funcion">Pulsa o pasa el ratón por encima de cualquier parte iluminada de la imagen para descubrir su función principal.</p>
+        <p class="rayos-x-pista">Funciona también con teclado: usa Tab para moverte entre órganos y Enter para seleccionarlos.</p>
+      </div>
+    </section>
+
+    <section class="controles" aria-label="Controles de las preguntas">
+      <div class="selector">
+        <label for="dificultad">Elige la dificultad</label>
+        <select id="dificultad">
+          <option value="facil">Fácil</option>
+          <option value="medio" selected>Medio</option>
+          <option value="dificil">Difícil</option>
+        </select>
+      </div>
+      <button id="nuevos" type="button">🔄 Crear otras preguntas</button>
+      <button id="continuar-sin-clave" class="continuar" type="button">▶️ Continuar mis preguntas</button>
+      <button id="ver-soluciones" type="button">🔒 Mostrar soluciones</button>
+      <span id="resumen" class="resumen" aria-live="polite">50 preguntas · Nivel medio</span>
+      <p class="aviso-guardado">Continuar mis preguntas no pide contraseña y guarda automáticamente tus respuestas en este navegador.</p>
+    </section>
+
+    <div id="ejercicios" aria-live="polite"></div>
+  </main>
+
+  <footer class="contenedor">Consejo: usa la ilustración de rayos X de arriba para repasar antes de responder.</footer>
+
+  <dialog id="dialogo-clave" aria-labelledby="titulo-clave">
+    <div class="dialogo-cuerpo">
+      <h2 id="titulo-clave">Acceso docente</h2>
+      <p>Introduce la contraseña para mostrar las soluciones.</p>
+      <form id="formulario-clave">
+        <label for="clave-docente">Contraseña</label>
+        <input id="clave-docente" type="password" autocomplete="current-password" required>
+        <p id="error-clave" role="status" aria-live="polite"></p>
+        <button type="button" id="olvide-clave" class="enlace-pista">¿Olvidaste la clave?</button>
+        <p id="pista-clave" class="pista-clave" hidden>Pista: lo que hay que pagar al Estado cada año.</p>
+        <div class="acciones-dialogo">
+          <button class="secundario" id="cancelar-clave" type="button">Cancelar</button>
+          <button type="submit">Desbloquear</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    // Cambia esta clave si quieres utilizar otra en tu actividad.
+    const CLAVE_DOCENTE = "Impuestos";
+
+    const grupos = [
+      { id: "digestivo", titulo: "Aparato digestivo", icono: "🍽️", cantidad: 10 },
+      { id: "respiratorio", titulo: "Aparato respiratorio", icono: "🫁", cantidad: 10 },
+      { id: "circulatorio", titulo: "Aparato circulatorio", icono: "❤️", cantidad: 10 },
+      { id: "locomotor", titulo: "Aparato locomotor", icono: "🦴", cantidad: 10 },
+      { id: "sentidos", titulo: "Órganos de los sentidos", icono: "👁️", cantidad: 10 }
+    ];
+
+    const bancoPorNivel = {
+      digestivo: {
+        facil: [
+          ["boca", "triturar los alimentos y empezar la digestión"],
+          ["dientes", "masticar los alimentos"],
+          ["estómago", "digerir los alimentos con jugos gástricos"],
+          ["intestino delgado", "absorber los nutrientes de los alimentos"],
+          ["intestino grueso", "absorber el agua y formar las heces"],
+          ["lengua", "mover los alimentos y notar los sabores"]
+        ],
+        medio: [
+          ["esófago", "llevar los alimentos hasta el estómago"],
+          ["hígado", "producir la bilis para digerir las grasas"],
+          ["páncreas", "producir jugos que ayudan a digerir"],
+          ["glándulas salivales", "producir la saliva"],
+          ["faringe", "conducir los alimentos hacia el esófago"],
+          ["estómago", "digerir los alimentos con jugos gástricos"]
+        ],
+        dificil: [
+          ["vesícula biliar", "almacenar la bilis"],
+          ["recto", "almacenar las heces antes de expulsarlas"],
+          ["duodeno", "mezclar el alimento con la bilis y los jugos pancreáticos"],
+          ["ano", "expulsar las heces al exterior"],
+          ["páncreas", "producir jugos que ayudan a digerir"],
+          ["hígado", "producir la bilis para digerir las grasas"]
+        ]
+      },
+      respiratorio: {
+        facil: [
+          ["nariz", "filtrar y calentar el aire que respiramos"],
+          ["pulmones", "intercambiar el oxígeno y el dióxido de carbono"],
+          ["tráquea", "llevar el aire hasta los pulmones"],
+          ["bronquios", "llevar el aire dentro de los pulmones"],
+          ["boca", "también puede entrar el aire al respirar"]
+        ],
+        medio: [
+          ["diafragma", "moverse para que entre y salga el aire"],
+          ["alvéolos", "intercambiar los gases con la sangre"],
+          ["laringe", "producir la voz"],
+          ["faringe", "conducir el aire hacia la tráquea"],
+          ["bronquiolos", "llevar el aire hasta los alvéolos"]
+        ],
+        dificil: [
+          ["pleura", "proteger y envolver los pulmones"],
+          ["epiglotis", "evitar que la comida entre en la tráquea"],
+          ["cuerdas vocales", "vibrar para producir los sonidos"],
+          ["fosas nasales", "limpiar el aire que respiramos"],
+          ["costillas", "proteger los pulmones"]
+        ]
+      },
+      circulatorio: {
+        facil: [
+          ["corazón", "bombear la sangre por todo el cuerpo"],
+          ["venas", "llevar la sangre de vuelta al corazón"],
+          ["arterias", "llevar la sangre desde el corazón"],
+          ["sangre", "transportar el oxígeno y los nutrientes"],
+          ["glóbulos rojos", "transportar el oxígeno"]
+        ],
+        medio: [
+          ["glóbulos blancos", "defender el cuerpo de las infecciones"],
+          ["plaquetas", "ayudar a cerrar las heridas"],
+          ["capilares", "conectar las arterias con las venas"],
+          ["plasma", "transportar los nutrientes en la sangre"],
+          ["aurículas", "recibir la sangre que llega al corazón"]
+        ],
+        dificil: [
+          ["ventrículos", "bombear la sangre fuera del corazón"],
+          ["válvulas", "evitar que la sangre retroceda"],
+          ["aorta", "la arteria más grande del cuerpo"],
+          ["vena cava", "la vena más grande del cuerpo"],
+          ["médula ósea", "fabricar las células de la sangre"]
+        ]
+      },
+      locomotor: {
+        facil: [
+          ["huesos", "dar forma y sostener el cuerpo"],
+          ["músculos", "mover el cuerpo"],
+          ["articulaciones", "unir los huesos y permitir el movimiento"],
+          ["columna vertebral", "sostener el cuerpo y proteger la médula"],
+          ["cráneo", "proteger el cerebro"]
+        ],
+        medio: [
+          ["costillas", "proteger el corazón y los pulmones"],
+          ["tendones", "unir los músculos a los huesos"],
+          ["ligamentos", "unir los huesos entre sí"],
+          ["fémur", "el hueso más largo del cuerpo"],
+          ["columna vertebral", "sostener el cuerpo y proteger la médula"]
+        ],
+        dificil: [
+          ["cartílago", "amortiguar y dar flexibilidad a las articulaciones"],
+          ["médula espinal", "llevar las señales nerviosas"],
+          ["esqueleto axial", "proteger los órganos internos"],
+          ["esqueleto apendicular", "permitir el movimiento de brazos y piernas"],
+          ["vértebras", "formar la columna vertebral"]
+        ]
+      },
+      sentidos: {
+        facil: [
+          ["ojos", "permitir ver"],
+          ["oídos", "permitir oír"],
+          ["nariz", "permitir oler"],
+          ["lengua", "permitir saborear"],
+          ["piel", "permitir sentir el tacto"]
+        ],
+        medio: [
+          ["retina", "captar la luz dentro del ojo"],
+          ["tímpano", "vibrar para transmitir el sonido"],
+          ["papilas gustativas", "detectar los sabores"],
+          ["fosas nasales", "detectar los olores"],
+          ["terminaciones nerviosas", "detectar el tacto en la piel"]
+        ],
+        dificil: [
+          ["cristalino", "enfocar la luz dentro del ojo"],
+          ["cóclea", "transformar el sonido en señales nerviosas"],
+          ["iris", "controlar la cantidad de luz que entra en el ojo"],
+          ["nervio óptico", "llevar la información visual al cerebro"],
+          ["nervio auditivo", "llevar la información del sonido al cerebro"]
+        ]
+      }
+    };
+
+    const dificultad = document.querySelector("#dificultad");
+    const listaEjercicios = document.querySelector("#ejercicios");
+    const resumen = document.querySelector("#resumen");
+    const botonSoluciones = document.querySelector("#ver-soluciones");
+    const botonContinuar = document.querySelector("#continuar-sin-clave");
+    const dialogoClave = document.querySelector("#dialogo-clave");
+    const formularioClave = document.querySelector("#formulario-clave");
+    const campoClave = document.querySelector("#clave-docente");
+    const errorClave = document.querySelector("#error-clave");
+    const botonOlvideClave = document.querySelector("#olvide-clave");
+    const pistaClave = document.querySelector("#pista-clave");
+    let mostrarSoluciones = false;
+    let accesoDocente = false;
+    const CLAVE_PROGRESO = "conocimiento-medio-progreso-v1";
+    let ejerciciosActuales = null;
+    let respuestasGuardadas = {};
+
+    function aleatorio(minimo, maximo) {
+      return Math.floor(Math.random() * (maximo - minimo + 1)) + minimo;
+    }
+
+    function elegirAlAzar(lista) {
+      return lista[aleatorio(0, lista.length - 1)];
+    }
+
+    function crearEjercicios(nivel) {
+      const ejercicios = {};
+      for (const grupo of grupos) {
+        ejercicios[grupo.id] = [];
+        for (let i = 0; i < grupo.cantidad; i++) {
+          const [organo, funcion] = elegirAlAzar(bancoPorNivel[grupo.id][nivel]);
+          ejercicios[grupo.id].push({
+            texto: `¿Qué órgano cumple esta función: "${funcion}"?`,
+            respuesta: organo
+          });
+        }
+      }
+      return ejercicios;
+    }
+
+    function guardarProgreso() {
+      try {
+        localStorage.setItem(CLAVE_PROGRESO, JSON.stringify({
+          nivel: dificultad.value,
+          ejercicios: ejerciciosActuales,
+          respuestas: respuestasGuardadas
+        }));
+      } catch {
+        // Si el navegador bloquea el almacenamiento, las preguntas siguen funcionando.
+      }
+    }
+
+    function recuperarProgreso() {
+      try {
+        const progreso = JSON.parse(localStorage.getItem(CLAVE_PROGRESO));
+        if (progreso && progreso.ejercicios && progreso.respuestas) return progreso;
+      } catch {
+        // No hay un progreso válido guardado todavía.
+      }
+      return null;
+    }
+
+    function normalizar(texto) {
+      return texto
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .replace(/['’]/g, "");
+    }
+
+    function pintarEjercicios() {
+      const nivel = dificultad.value;
+      const ejercicios = ejerciciosActuales || crearEjercicios(nivel);
+      ejerciciosActuales = ejercicios;
+      mostrarSoluciones = accesoDocente;
+      listaEjercicios.replaceChildren();
+      let numero = 1;
+
+      for (const grupo of grupos) {
+        const seccion = document.createElement("section");
+        seccion.className = "grupo";
+
+        const titulo = document.createElement("h2");
+        titulo.innerHTML = `<span aria-hidden="true">${grupo.icono}</span>${grupo.titulo} <small>(${grupo.cantidad})</small>`;
+        const contadorGrupo = document.createElement("span");
+        contadorGrupo.className = "contador-grupo";
+        titulo.append(contadorGrupo);
+        seccion.append(titulo);
+
+        function actualizarContadorGrupo() {
+          const correctas = lista.querySelectorAll(".resultado.correcta").length;
+          contadorGrupo.textContent = `${correctas}/${grupo.cantidad} correctas`;
+        }
+
+        const lista = document.createElement("ol");
+        (ejercicios[grupo.id] || []).forEach((ejercicio, indice) => {
+          const idEjercicio = `${grupo.id}-${indice}`;
+          const elemento = document.createElement("li");
+          const enunciado = document.createElement("span");
+          enunciado.className = "enunciado";
+          enunciado.textContent = ejercicio.texto;
+
+          const entrada = document.createElement("input");
+          entrada.className = "respuesta";
+          entrada.type = "text";
+          entrada.autocomplete = "off";
+          entrada.autocapitalize = "off";
+          entrada.spellcheck = false;
+          entrada.maxLength = 40;
+          entrada.setAttribute("aria-label", `Respuesta de la pregunta ${numero}`);
+          entrada.value = respuestasGuardadas[idEjercicio] || "";
+
+          const resultado = document.createElement("span");
+          resultado.className = "resultado";
+          resultado.setAttribute("role", "status");
+          resultado.setAttribute("aria-live", "polite");
+
+          function comprobarRespuesta() {
+            if (entrada.value.trim() === "") {
+              resultado.textContent = "";
+              resultado.className = "resultado";
+              resultado.removeAttribute("aria-label");
+              actualizarContadorGrupo();
+              return;
+            }
+            const esCorrecta = normalizar(entrada.value) === normalizar(ejercicio.respuesta);
+            resultado.textContent = esCorrecta ? "✓" : "✗";
+            resultado.className = `resultado ${esCorrecta ? "correcta" : "incorrecta"}`;
+            resultado.setAttribute("aria-label", esCorrecta ? "Correcto" : "Incorrecto");
+            actualizarContadorGrupo();
+          }
+
+          entrada.addEventListener("input", () => {
+            respuestasGuardadas[idEjercicio] = entrada.value;
+            guardarProgreso();
+            comprobarRespuesta();
+          });
+
+          entrada.addEventListener("change", () => {
+            comprobarRespuesta();
+          });
+
+          entrada.addEventListener("keydown", (evento) => {
+            if (evento.key === "Enter") {
+              evento.preventDefault();
+              entrada.blur();
+            }
+          });
+
+          const solucion = document.createElement("span");
+          solucion.className = "solucion";
+          solucion.textContent = ejercicio.respuesta;
+          solucion.hidden = !mostrarSoluciones;
+          solucion.setAttribute("aria-label", `respuesta de la pregunta ${numero}`);
+
+          elemento.append(enunciado, entrada, resultado, solucion);
+          lista.append(elemento);
+          comprobarRespuesta();
+          numero++;
+        });
+
+        seccion.append(lista);
+        listaEjercicios.append(seccion);
+      }
+
+      const nombreNivel = dificultad.options[dificultad.selectedIndex].text.toLowerCase();
+      resumen.textContent = `50 preguntas · Nivel ${nombreNivel}`;
+      botonSoluciones.textContent = mostrarSoluciones ? "🙈 Ocultar soluciones" : "🔒 Mostrar soluciones";
+    }
+
+    function crearOtrosEjercicios() {
+      ejerciciosActuales = crearEjercicios(dificultad.value);
+      respuestasGuardadas = {};
+      accesoDocente = false;
+      guardarProgreso();
+      pintarEjercicios();
+    }
+
+    dificultad.addEventListener("change", crearOtrosEjercicios);
+    document.querySelector("#nuevos").addEventListener("click", crearOtrosEjercicios);
+
+    botonContinuar.addEventListener("click", () => {
+      const progreso = recuperarProgreso();
+      if (progreso) {
+        dificultad.value = progreso.nivel || dificultad.value;
+        ejerciciosActuales = progreso.ejercicios;
+        respuestasGuardadas = progreso.respuestas;
+      } else {
+        ejerciciosActuales = crearEjercicios(dificultad.value);
+        respuestasGuardadas = {};
+        guardarProgreso();
+      }
+      accesoDocente = false;
+      mostrarSoluciones = false;
+      pintarEjercicios();
+      listaEjercicios.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    botonSoluciones.addEventListener("click", () => {
+      if (!accesoDocente) {
+        errorClave.textContent = "";
+        campoClave.value = "";
+        pistaClave.hidden = true;
+        dialogoClave.showModal();
+        campoClave.focus();
+        return;
+      }
+
+      mostrarSoluciones = !mostrarSoluciones;
+      document.querySelectorAll(".solucion").forEach((solucion) => {
+        solucion.hidden = !mostrarSoluciones;
+      });
+      botonSoluciones.textContent = mostrarSoluciones ? "🙈 Ocultar soluciones" : "🔒 Mostrar soluciones";
+      if (!mostrarSoluciones) accesoDocente = false;
+    });
+
+    formularioClave.addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      if (campoClave.value === CLAVE_DOCENTE) {
+        accesoDocente = true;
+        mostrarSoluciones = true;
+        dialogoClave.close();
+        pintarEjercicios();
+      } else {
+        errorClave.textContent = "Contraseña incorrecta. Prueba otra vez.";
+        campoClave.select();
+      }
+    });
+
+    document.querySelector("#cancelar-clave").addEventListener("click", () => dialogoClave.close());
+
+    botonOlvideClave.addEventListener("click", () => {
+      pistaClave.hidden = !pistaClave.hidden;
+    });
+
+    // Ilustración de rayos X interactiva
+    const nombreOrgano = document.querySelector("#organo-nombre");
+    const funcionOrgano = document.querySelector("#organo-funcion");
+
+    function mostrarOrgano(elemento) {
+      document.querySelectorAll(".organo").forEach((o) => o.classList.remove("activo"));
+      elemento.classList.add("activo");
+      const nombre = elemento.dataset.organo;
+      nombreOrgano.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+      funcionOrgano.textContent = elemento.dataset.funcion;
+    }
+
+    document.querySelectorAll(".organo").forEach((organo) => {
+      organo.addEventListener("click", () => mostrarOrgano(organo));
+      organo.addEventListener("mouseenter", () => mostrarOrgano(organo));
+      organo.addEventListener("keydown", (evento) => {
+        if (evento.key === "Enter" || evento.key === " ") {
+          evento.preventDefault();
+          mostrarOrgano(organo);
+        }
+      });
+    });
+
+    const progresoInicial = recuperarProgreso();
+    if (progresoInicial) {
+      dificultad.value = progresoInicial.nivel || dificultad.value;
+      ejerciciosActuales = progresoInicial.ejercicios;
+      respuestasGuardadas = progresoInicial.respuestas;
+    }
+    pintarEjercicios();
+  </script>
+</body>
+</html>
