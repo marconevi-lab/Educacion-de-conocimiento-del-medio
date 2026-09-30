@@ -91,19 +91,20 @@
       background: radial-gradient(circle at 50% 20%, #0f2a4a, #071324 70%);
     }
 
-    .rayos-x-imagen svg { width: 100%; max-width: 220px; height: auto; }
+    .rayos-x-imagen svg { width: 100%; max-width: 260px; height: auto; }
 
     .organo {
       cursor: pointer;
       fill: #7fd8ff;
-      fill-opacity: .55;
+      fill-opacity: .5;
       stroke: #bdeeff;
-      stroke-width: 1.5;
+      stroke-width: 1.4;
       transition: fill-opacity .15s ease, stroke-width .15s ease;
     }
 
-    .organo:hover { fill-opacity: .8; }
-    .organo.activo { fill: #fff59e; fill-opacity: .9; stroke: #fff2b8; stroke-width: 2.5; }
+    .organo:hover { fill-opacity: .75; }
+    .organo.activo { fill: #fff59e; fill-opacity: .85; stroke: #fff2b8; stroke-width: 2.2; }
+    .organo-detalle { fill: none; stroke: #0b2942; stroke-width: 1; stroke-opacity: .5; pointer-events: none; }
     .esqueleto { fill: none; stroke: #5fa8d3; stroke-width: 1; stroke-opacity: .55; }
 
     .rayos-x-texto h2 { margin: 0 0 8px; color: #39264e; font-size: 1.2rem; }
@@ -300,51 +301,101 @@
   <main class="contenedor">
     <section class="rayos-x" aria-label="Ilustración de rayos X del cuerpo humano">
       <div class="rayos-x-imagen">
-        <svg viewBox="0 0 220 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de rayos X del cuerpo humano con órganos interactivos">
-          <ellipse class="esqueleto" cx="110" cy="45" rx="34" ry="40"></ellipse>
-          <path class="esqueleto" d="M110 85 L110 120"></path>
-          <path class="esqueleto" d="M70 130 Q110 110 150 130 L150 260 Q110 280 70 260 Z"></path>
-          <path class="esqueleto" d="M78 140 Q110 128 142 140"></path>
-          <path class="esqueleto" d="M78 160 Q110 148 142 160"></path>
-          <path class="esqueleto" d="M78 180 Q110 168 142 180"></path>
-          <path class="esqueleto" d="M78 200 Q110 188 142 200"></path>
-          <path class="esqueleto" d="M78 220 Q110 208 142 220"></path>
-          <path class="esqueleto" d="M110 130 L110 300"></path>
-          <path class="esqueleto" d="M70 145 L40 210 M150 145 L180 210 M40 210 L55 260 M180 210 L165 260"></path>
-          <path class="esqueleto" d="M85 300 L70 400 M135 300 L150 400"></path>
+        <svg viewBox="0 0 260 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de rayos X del cuerpo humano con órganos interactivos">
+          <!-- Esqueleto de fondo -->
+          <path class="esqueleto" d="M100 20 Q130 4 160 20 Q173 42 165 64 Q161 80 149 88 L141 96 Q130 100 119 96 L111 88 Q99 80 95 64 Q87 42 100 20 Z"></path>
+          <path class="esqueleto" d="M119 96 L119 112 M141 96 L141 112"></path>
+          <path class="esqueleto" d="M92 116 Q130 106 168 116"></path>
+          <path class="esqueleto" d="M130 108 L130 432" stroke-dasharray="9 3"></path>
+          <path class="esqueleto" d="M130 116 Q104 111 84 138 Q78 145 84 152"></path>
+          <path class="esqueleto" d="M130 132 Q98 127 76 156 Q70 165 78 172"></path>
+          <path class="esqueleto" d="M130 148 Q94 143 70 174 Q64 184 74 191"></path>
+          <path class="esqueleto" d="M130 164 Q92 160 66 192 Q60 203 71 210"></path>
+          <path class="esqueleto" d="M130 180 Q91 177 65 210 Q59 222 71 229"></path>
+          <path class="esqueleto" d="M130 196 Q92 194 67 226 Q61 238 73 245"></path>
+          <path class="esqueleto" d="M130 212 Q94 211 71 240 Q65 251 77 258"></path>
+          <path class="esqueleto" d="M130 228 Q98 228 77 254 Q71 264 82 270"></path>
+          <path class="esqueleto" d="M130 116 Q156 111 176 138 Q182 145 176 152"></path>
+          <path class="esqueleto" d="M130 132 Q162 127 184 156 Q190 165 182 172"></path>
+          <path class="esqueleto" d="M130 148 Q166 143 190 174 Q196 184 186 191"></path>
+          <path class="esqueleto" d="M130 164 Q168 160 194 192 Q200 203 189 210"></path>
+          <path class="esqueleto" d="M130 180 Q169 177 195 210 Q201 222 189 229"></path>
+          <path class="esqueleto" d="M130 196 Q168 194 193 226 Q199 238 187 245"></path>
+          <path class="esqueleto" d="M130 212 Q166 211 189 240 Q195 251 183 258"></path>
+          <path class="esqueleto" d="M130 228 Q162 228 183 254 Q189 264 178 270"></path>
+          <path class="esqueleto" d="M95 420 Q76 440 88 468 Q108 480 130 474 Q152 480 172 468 Q184 440 165 420 Q130 436 95 420 Z"></path>
+          <path class="esqueleto" d="M112 470 Q104 520 100 575 M148 470 Q156 520 160 575"></path>
+          <path class="esqueleto" d="M60 340 Q64 385 78 424 M200 340 Q196 385 182 424"></path>
 
+          <!-- Cerebro -->
           <g class="organo" tabindex="0" role="button" data-organo="cerebro" data-funcion="Controla el cuerpo y procesa la información de los sentidos." aria-label="Cerebro">
-            <ellipse cx="110" cy="42" rx="26" ry="28"></ellipse>
+            <path d="M104 30 Q100 19 113 17 Q119 10 130 12 Q141 10 147 17 Q160 19 156 30 Q167 38 160 50 Q167 62 157 72 Q161 84 146 89 Q138 96 130 91 Q122 96 114 89 Q99 84 103 72 Q93 62 100 50 Q93 38 104 30 Z"></path>
+            <path class="organo-detalle" d="M130 15 L130 90"></path>
+            <path class="organo-detalle" d="M107 30 Q116 25 124 30 Q118 34 107 30"></path>
+            <path class="organo-detalle" d="M136 30 Q144 25 153 30 Q147 34 136 30"></path>
+            <path class="organo-detalle" d="M102 45 Q114 39 126 45 Q116 50 102 45"></path>
+            <path class="organo-detalle" d="M134 45 Q146 39 158 45 Q148 50 134 45"></path>
+            <path class="organo-detalle" d="M101 60 Q114 54 126 60 Q116 65 101 60"></path>
+            <path class="organo-detalle" d="M134 60 Q146 54 159 60 Q148 65 134 60"></path>
+            <path class="organo-detalle" d="M106 74 Q116 69 127 74 Q118 79 106 74"></path>
+            <path class="organo-detalle" d="M133 74 Q144 69 154 74 Q142 79 133 74"></path>
           </g>
 
-          <g class="organo" tabindex="0" role="button" data-organo="pulmón izquierdo" data-funcion="Intercambia oxígeno y dióxido de carbono con la sangre." aria-label="Pulmón izquierdo">
-            <path d="M92 145 Q68 160 70 210 Q72 235 95 230 Q100 190 92 145 Z"></path>
-          </g>
-          <g class="organo" tabindex="0" role="button" data-organo="pulmón derecho" data-funcion="Intercambia oxígeno y dióxido de carbono con la sangre." aria-label="Pulmón derecho">
-            <path d="M128 145 Q152 160 150 210 Q148 235 125 230 Q120 190 128 145 Z"></path>
+          <!-- Pulmón izquierdo -->
+          <g class="organo" tabindex="0" role="button" data-organo="pulmón izquierdo" data-funcion="Intercambia el oxígeno y el dióxido de carbono con la sangre." aria-label="Pulmón izquierdo">
+            <path d="M121 118 Q97 107 80 129 Q63 152 62 184 Q61 216 71 241 Q79 259 96 252 Q106 247 107 226 Q109 208 105 192 Q113 178 108 162 Q104 146 121 118 Z"></path>
+            <path class="organo-detalle" d="M99 152 Q88 190 96 232"></path>
+            <path class="organo-detalle" d="M116 138 L98 150 M98 150 L84 165 M98 150 L90 176 M84 165 L74 181 M90 176 L82 197 M82 197 L76 215"></path>
           </g>
 
+          <!-- Pulmón derecho -->
+          <g class="organo" tabindex="0" role="button" data-organo="pulmón derecho" data-funcion="Intercambia el oxígeno y el dióxido de carbono con la sangre." aria-label="Pulmón derecho">
+            <path d="M139 118 Q163 107 180 129 Q197 152 198 184 Q199 216 189 241 Q181 259 164 252 Q154 247 153 226 Q151 208 155 192 Q147 178 152 162 Q156 146 139 118 Z"></path>
+            <path class="organo-detalle" d="M161 152 Q172 190 164 232"></path>
+            <path class="organo-detalle" d="M144 138 L162 150 M162 150 L176 165 M162 150 L170 176 M176 165 L186 181 M170 176 L178 197 M178 197 L184 215"></path>
+          </g>
+
+          <!-- Corazón -->
           <g class="organo" tabindex="0" role="button" data-organo="corazón" data-funcion="Bombea la sangre por todo el cuerpo." aria-label="Corazón">
-            <path d="M110 165 C100 150 78 158 80 178 C82 198 110 216 110 216 C110 216 138 198 140 178 C142 158 120 150 110 165 Z"></path>
+            <path d="M130 176 C119 158 96 161 92 183 C88 207 109 226 130 248 C151 226 172 207 168 183 C164 161 141 158 130 176 Z"></path>
+            <path class="organo-detalle" d="M130 168 L130 242"></path>
+            <path class="organo-detalle" d="M101 196 Q130 189 159 196"></path>
+            <path class="organo-detalle" d="M118 161 Q122 146 137 149 Q150 151 148 163"></path>
+            <path class="organo-detalle" d="M141 157 L151 143"></path>
           </g>
 
+          <!-- Estómago -->
           <g class="organo" tabindex="0" role="button" data-organo="estómago" data-funcion="Digiere los alimentos con jugos gástricos." aria-label="Estómago">
-            <path d="M78 235 Q75 260 95 268 Q110 270 108 250 Q100 238 78 235 Z"></path>
+            <path d="M121 250 Q143 251 149 269 Q153 287 140 300 Q129 310 112 307 Q94 304 89 287 Q84 270 96 259 Q106 250 121 250 Z"></path>
+            <path class="organo-detalle" d="M100 263 Q113 271 109 287"></path>
+            <path class="organo-detalle" d="M109 259 Q124 269 120 291"></path>
+            <path class="organo-detalle" d="M119 256 Q133 266 129 293"></path>
           </g>
 
+          <!-- Hígado -->
           <g class="organo" tabindex="0" role="button" data-organo="hígado" data-funcion="Produce la bilis y limpia la sangre." aria-label="Hígado">
-            <path d="M115 240 Q150 235 152 258 Q150 272 120 268 Q112 255 115 240 Z"></path>
+            <path d="M140 251 Q171 240 191 256 Q204 270 199 289 Q194 307 171 309 Q149 311 141 296 Q134 275 140 251 Z"></path>
+            <path class="organo-detalle" d="M166 251 Q170 280 161 308"></path>
+            <path d="M182 296 Q189 306 182 316 Q175 306 182 296 Z" class="organo-detalle"></path>
           </g>
 
+          <!-- Intestinos -->
           <g class="organo" tabindex="0" role="button" data-organo="intestinos" data-funcion="Absorben los nutrientes y el agua de los alimentos." aria-label="Intestinos">
-            <path d="M78 275 Q110 265 142 275 Q150 295 130 300 Q110 290 90 300 Q70 295 78 275 Z"></path>
+            <path d="M176 318 L176 361 Q176 372 165 374 L98 374 Q87 372 87 361 L87 320 L167 320 Q176 320 176 318 Z"></path>
+            <path class="organo-detalle" d="M98 374 L98 366 M112 374 L112 366 M126 374 L126 366 M140 374 L140 366 M154 374 L154 366"></path>
+            <path class="organo-detalle" d="M87 330 L96 330 M87 344 L96 344 M87 358 L96 358"></path>
+            <path class="organo-detalle" d="M167 330 L158 330 M167 344 L158 344 M167 358 L158 358"></path>
+            <path d="M101 332 Q116 323 132 332 Q148 341 132 350 Q116 359 101 350 Q91 343 101 336 M107 338 Q117 333 127 338 Q137 343 127 347 Q118 351 111 347" class="organo-detalle"></path>
           </g>
 
+          <!-- Riñón izquierdo -->
           <g class="organo" tabindex="0" role="button" data-organo="riñón izquierdo" data-funcion="Filtra la sangre y produce la orina." aria-label="Riñón izquierdo">
-            <ellipse cx="85" cy="250" rx="8" ry="14"></ellipse>
+            <path d="M62 298 Q48 303 48 320 Q48 337 62 342 Q75 338 74 327 Q65 325 67 320 Q65 315 74 313 Q75 302 62 298 Z"></path>
           </g>
+
+          <!-- Riñón derecho -->
           <g class="organo" tabindex="0" role="button" data-organo="riñón derecho" data-funcion="Filtra la sangre y produce la orina." aria-label="Riñón derecho">
-            <ellipse cx="135" cy="250" rx="8" ry="14"></ellipse>
+            <path d="M198 298 Q212 303 212 320 Q212 337 198 342 Q185 338 186 327 Q195 325 193 320 Q195 315 186 313 Q185 302 198 298 Z"></path>
           </g>
         </svg>
       </div>
